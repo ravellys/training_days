@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback, useRef} from 'react';
 import Calendar from 'react-calendar';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCheckCircle} from '@fortawesome/free-solid-svg-icons'
-import {deleteDate, fetchData, insertDate} from './apiController';
+import {deleteDate, fetchData, fetchUsers, insertDate} from './apiController';
 import {convertDateSting, clickOnButton} from "./utils";
 
 
@@ -12,12 +12,17 @@ const okSymbol = <FontAwesomeIcon icon={faCheckCircle}/>;
 function GymTracker() {
     const [selectedDates, setSelectedDates] = useState({});
     const [user, setUser] = useState('ravellys');
+    const [users, setUsers] = useState([]);
     const inputRef = useRef(null);
 
     const updateSelectedDatesInCalendar = useCallback((selectedDates) => {
         const buttons = Array.from(document.getElementsByTagName("button"));
         buttons.forEach(button => clickOnButton(button, selectedDates));
     }, [])
+
+    useEffect(() => {
+        fetchUsers(setUsers);
+    }, []);
 
     useEffect(() => {
         fetchData(setSelectedDates, user);
@@ -54,15 +59,15 @@ function GymTracker() {
 
     return (
         <div>
-            <div>
+            <div className="user-selector-container">
                 <label>
-                    <input
-                        type="text"
-                        ref={inputRef}
-                        defaultValue={user}
-                    />
+                    <select defaultValue={user} ref={inputRef} className="user-selector">
+                        {users.map(user => (
+                            <option key={user} value={user}>{user}</option>
+                        ))}
+                    </select>
                 </label>
-                <button onClick={handleUserSubmit}>Change User</button>
+                <button onClick={handleUserSubmit} className="user-selector-button">Change User</button>
             </div>
             <Calendar
                 onClickDay={handleButtonClick}

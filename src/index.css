@@ -29,3 +29,37 @@ code {
 .selected-date {
   background-color: green;
 }
+
+.user-selector-container {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Add this line */
+  height: 50px;
+  margin: 20px auto 20px 20px;
+}
+
+.user-selector {
+  height: 100%;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: 1px;
+  border-radius: 5px;
+  background-color: #e0d8d8;
+  flex-grow: 1;
+  margin-left: 2px;
+}
+
+.user-selector-button {
+  height: 80%;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.user-selector-button:hover {
+  background-color: #3e8e41;
+}

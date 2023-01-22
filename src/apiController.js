@@ -9,11 +9,22 @@ const headers = {
 const generateApiUrl = (method, value, user) => {
     user = user ? user : USER_DEFAULT
     let url = `${API_URL}?user=${user}&method=${method}`
-    if (method !== 'get') {
+    if (value) {
         url = `${url}&value=${value}`
     }
     return url
 }
+
+export const fetchUsers = async (setUsers) => {
+    try {
+        const result = await axios.get(generateApiUrl('get_users', undefined, undefined), {
+            headers: headers
+        });
+        setUsers(result.data.users);
+    } catch (error) {
+        console.log(error);
+    }
+};
 
 export const fetchData = async (setSelectedDates, user) => {
     try {
