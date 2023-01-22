@@ -17,6 +17,15 @@ code {
   margin: 0 auto;
 }
 
+.react-calendar__tile--active {
+  background: green;
+  color: white;
+}
+
+.react-calendar__tile--active:enabled:hover, .react-calendar__tile--active:enabled:focus {
+  background: green;
+}
+
 .selected-date {
   background-color: green;
 }
