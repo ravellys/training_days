@@ -19,7 +19,9 @@ function GymTracker() {
     }, []);
 
     useEffect(() => {
-        if(users) { setUser(users[0]);}
+        if (users) {
+            setUser(users[0]);
+        }
     }, [users]);
 
     useEffect(() => {
@@ -29,8 +31,9 @@ function GymTracker() {
     }, [user]);
 
     useEffect(() => {
-        if(selectedDates) {
-            Array.from(document.getElementsByTagName("button")).forEach(button => clickOnButton(button, selectedDates));
+        if (selectedDates) {
+            Array.from(document.getElementsByTagName("button"))
+                .forEach(button => clickOnButton(button, selectedDates));
         }
     }, [selectedDates]);
 

@@ -14,27 +14,26 @@ const generateApiUrl = (method, value, user) => {
 }
 
 export const fetchUsers = (setUsers) => {
-           axios.get(generateApiUrl('get_users', undefined, undefined), {headers: headers})
-               .then(response => setUsers(response.data.users))
-               .catch(error => console.log(error));
-       };
+    axios.get(generateApiUrl('get_users', undefined, undefined), {headers: headers})
+        .then(response => setUsers(response.data.users))
+        .catch(error => console.log(error));
+};
 
 export const fetchData = async (setSelectedDates, user) => {
-        axios.get(generateApiUrl('get', undefined, user), {headers: headers})
-            .then(response => setSelectedDates(
-                Object.fromEntries(Object.entries(response.data).map(([year, dates]) => [year, new Set(dates)])))
-            )
-            .catch(error => console.log(error))
-
+    axios.get(generateApiUrl('get', undefined, user), {headers: headers})
+        .then(response => setSelectedDates(
+            Object.fromEntries(Object.entries(response.data).map(([year, dates]) => [year, new Set(dates)])))
+        )
+        .catch(error => console.log(error));
 };
 
 export const insertDate = async (value, user) => {
     axios.get(generateApiUrl('insert', value, user), {headers: headers})
-    .catch(error => console.log(error))
+        .catch(error => console.log(error));
 };
 
 
 export const deleteDate = async (value, user) => {
-    axios.get(generateApiUrl('delete', value, user), { headers: headers})
-       .catch(error => console.log(error))
+    axios.get(generateApiUrl('delete', value, user), {headers: headers})
+        .catch(error => console.log(error));
 };
