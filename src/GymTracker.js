@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import Calendar from 'react-calendar';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCheckCircle} from '@fortawesome/free-solid-svg-icons'
@@ -11,26 +11,28 @@ const okSymbol = <FontAwesomeIcon icon={faCheckCircle}/>;
 
 function GymTracker() {
     const [selectedDates, setSelectedDates] = useState({});
-    const [user, setUser] = useState('ravellys');
+    const [user, setUser] = useState(null);
     const [users, setUsers] = useState([]);
-    const inputRef = useRef(null);
-
-    const updateSelectedDatesInCalendar = useCallback((selectedDates) => {
-        const buttons = Array.from(document.getElementsByTagName("button"));
-        buttons.forEach(button => clickOnButton(button, selectedDates));
-    }, [])
 
     useEffect(() => {
         fetchUsers(setUsers);
     }, []);
 
     useEffect(() => {
-        fetchData(setSelectedDates, user);
+        if(users) { setUser(users[0]);}
+    }, [users]);
+
+    useEffect(() => {
+        if (user) {
+            fetchData(setSelectedDates, user);
+        }
     }, [user]);
 
     useEffect(() => {
-        updateSelectedDatesInCalendar(selectedDates);
-    }, [selectedDates, updateSelectedDatesInCalendar]);
+        if(selectedDates) {
+            Array.from(document.getElementsByTagName("button")).forEach(button => clickOnButton(button, selectedDates));
+        }
+    }, [selectedDates]);
 
     const handleButtonClick = (date) => {
         const dateString = convertDateSting(date);
@@ -52,22 +54,18 @@ function GymTracker() {
         return selectedDates[year] && selectedDates[year].has(dateString) ? okSymbol : '';
     }
 
-    const handleUserSubmit = (event) => {
-        setUser(inputRef.current.value);
-        fetchData(setSelectedDates, user)
-    }
-
     return (
         <div>
             <div className="user-selector-container">
                 <label>
-                    <select defaultValue={user} ref={inputRef} className="user-selector">
+                    <select
+                        className="user-selector"
+                        onChange={event => setUser(event.target.value)}>
                         {users.map(user => (
                             <option key={user} value={user}>{user}</option>
                         ))}
                     </select>
                 </label>
-                <button onClick={handleUserSubmit} className="user-selector-button">Change User</button>
             </div>
             <Calendar
                 onClickDay={handleButtonClick}
@@ -75,7 +73,7 @@ function GymTracker() {
             />
             <div>
                 {Object.entries(selectedDates).map(([year, dates]) => (
-                    <p key={year}>Year {year}: {dates.size} days</p>
+                    dates.size > 0 ? <p key={year}>Year {year}: {dates.size} days</p> : null
                 ))}
             </div>
         </div>
